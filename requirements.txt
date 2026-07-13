@@ -1,4 +1,13 @@
 numpy
 pandas
-matplotly
 seaborn
+matplotlib
+plotly
+scikit-learn
+imbalanced-learn
+xgboost
+lightgbm
+catboost
+shap>=0.46.0
+eli5
+tqdm
