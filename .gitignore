@@ -7,4 +7,18 @@ wheels/
 *.egg-info
 
 # Virtual environments
-.venv
+.venv/
+venv/
+ENV/
+
+# Data and large dataset files
+data/raw/
+data/processed/*.csv
+data/external/
+scratch/
+models/*.joblib
+models/*.pkl
+
+# OS / IDE
+.DS_Store
+Thumbs.db
