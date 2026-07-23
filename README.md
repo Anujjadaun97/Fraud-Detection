@@ -38,7 +38,7 @@ Fraud Detection/
 | **02** | `02_Data_Understanding.ipynb` | ✅ Completed | Data dimensions analysis (284,807 rows × 31 columns), variable data types, missing value audit (0 nulls), target distribution (0.172% fraud prevalence). |
 | **03** | `03_EDA.ipynb` | ✅ Completed | Univariate distribution of `Amount` (extreme right skewness, median $22.00), time dynamics, correlation with `Class`, and outlier analysis. |
 | **04** | `04_Preprocessing.ipynb` | ✅ Completed | Data cleaning, deduplication (1,081 duplicates removed → 283,726 samples), `RobustScaler` transformation on `Amount` & `Time`, 80/20 stratified train-test split, SMOTE oversampling on training data (453,232 balanced samples), and dataset export. |
-| **05** | `05_Baseline_Models.ipynb` | ⏳ Pending | Training initial baseline models (Logistic Regression, Random Forest, XGBoost) on un-resampled vs. SMOTE training data. |
+| **05** | `05_Baseline_Models.ipynb` | ⏳ Initialized | Notebook structure set up with 13 key sections (Logistic Regression, Decision Tree, Random Forest, XGBoost). |
 | **06** | `06_Imbalanced_Learning.ipynb` | ⏳ Pending | Exploring advanced imbalanced techniques (Cost-Sensitive Learning, Focal Loss, Balanced Random Forest, Random UnderSampling). |
 | **07** | `07_Model_Evaluation.ipynb` | ⏳ Pending | Comprehensive evaluation: Precision-Recall Curves, ROC Curves, Confusion Matrices, and business impact analysis. |
 | **08** | `08_Threshold_Tuning.ipynb` | ⏳ Pending | Optimal decision threshold selection based on financial loss minimization and target precision/recall trade-offs. |
