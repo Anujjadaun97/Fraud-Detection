@@ -19,9 +19,10 @@ Fraud Detection/
 │   ├── raw/               # Raw dataset (creditcard.csv)
 │   ├── processed/         # Preprocessed & partitioned CSV splits (X_train, X_test, SMOTE data)
 │   └── external/          # External domain resources
-├── models/                # Saved models and scaler artifacts (scaler_amount.joblib, scaler_time.joblib)
+├── models/                # Saved models (.pkl) and scaler artifacts (scaler_amount.joblib, scaler_time.joblib)
 ├── notebooks/             # Sequential Jupyter Notebooks (01 through 09)
 ├── reports/
+│   ├── baseline_model_results.csv # Serialized baseline evaluation results
 │   └── figures/           # Generated EDA and evaluation visualizations
 ├── src/                   # Source code scripts for modular pipeline execution
 ├── pyproject.toml         # Dependency configurations
@@ -38,7 +39,7 @@ Fraud Detection/
 | **02** | `02_Data_Understanding.ipynb` | ✅ Completed | Data dimensions analysis (284,807 rows × 31 columns), variable data types, missing value audit (0 nulls), target distribution (0.172% fraud prevalence). |
 | **03** | `03_EDA.ipynb` | ✅ Completed | Univariate distribution of `Amount` (extreme right skewness, median $22.00), time dynamics, correlation with `Class`, and outlier analysis. |
 | **04** | `04_Preprocessing.ipynb` | ✅ Completed | Data cleaning, deduplication (1,081 duplicates removed → 283,726 samples), `RobustScaler` transformation on `Amount` & `Time`, 80/20 stratified train-test split, SMOTE oversampling on training data (453,232 balanced samples), and dataset export. |
-| **05** | `05_Baseline_Models.ipynb` | ⏳ Initialized | Notebook structure set up with 13 key sections (Logistic Regression, Decision Tree, Random Forest, XGBoost). |
+| **05** | `05_Baseline_Models.ipynb` | ✅ Completed | Trained and evaluated 4 baseline classifiers (Logistic Regression, Decision Tree, Random Forest, XGBoost). Identified Random Forest as top baseline performer (PR-AUC: 0.7876, Recall: 72.63%, Precision: 97.18%). Serialized baseline models & metrics. |
 | **06** | `06_Imbalanced_Learning.ipynb` | ⏳ Pending | Exploring advanced imbalanced techniques (Cost-Sensitive Learning, Focal Loss, Balanced Random Forest, Random UnderSampling). |
 | **07** | `07_Model_Evaluation.ipynb` | ⏳ Pending | Comprehensive evaluation: Precision-Recall Curves, ROC Curves, Confusion Matrices, and business impact analysis. |
 | **08** | `08_Threshold_Tuning.ipynb` | ⏳ Pending | Optimal decision threshold selection based on financial loss minimization and target precision/recall trade-offs. |
@@ -58,9 +59,31 @@ Following `04_Preprocessing.ipynb`, the raw transaction dataset was processed an
 | **Test Set (20% Stratified)** | 56,746 | 56,637 | 109 | 0.1921% |
 | **SMOTE Resampled Train Set** | 453,232 | 226,616 | 226,616 | 50.0000% |
 
-### Exported Artifacts:
+### Exported Preprocessing Artifacts:
 - **`data/processed/`**: `X_train.csv`, `X_test.csv`, `y_train.csv`, `y_test.csv`, `X_train_resampled.csv`, `y_train_resampled.csv`
 - **`models/`**: `scaler_amount.joblib`, `scaler_time.joblib`
+
+---
+
+## 📈 Baseline Model Performance (Notebook 05 Output)
+
+Evaluated baseline algorithms on the imbalanced test partition (56,746 transactions: 56,651 legitimate, 95 fraudulent):
+
+| Model | Accuracy | Precision | Recall | F1 Score | ROC-AUC | PR-AUC | Winner / Key Metric |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **Logistic Regression** | 0.9991 | 0.8438 | 0.5684 | 0.6792 | **0.9573** | 0.6900 | Highest ROC-AUC (Probability Ranking) |
+| **Decision Tree** | 0.9990 | 0.7204 | 0.7053 | 0.7128 | 0.8524 | 0.5086 | Higher recall, but lower precision |
+| **Random Forest** | **0.9995** | **0.9718** | **0.7263** | **0.8313** | 0.9239 | **0.7876** | 🏆 **Best Overall Baseline Model** |
+| **XGBoost** | 0.9992 | 0.8171 | 0.7053 | 0.7571 | 0.8475 | 0.6649 | Strong baseline performance |
+
+### Key Insights & Findings:
+- 🏆 **Random Forest** emerged as the winning baseline model across nearly all critical metrics: highest Precision (**97.18%** with only 2 false positives), highest Recall (**72.63%** detecting 69/95 fraud cases), highest F1 Score (**83.13%**), and highest PR-AUC (**78.76%**).
+- **Logistic Regression** produced the best probability ranking capability across thresholds (ROC-AUC **0.9573**), but missed more fraud cases (Recall **56.84%**).
+- **Decision Tree** & **XGBoost** detected 67 fraud cases (Recall **70.53%**), but had lower PR-AUC values (0.5086 and 0.6649, respectively).
+
+### Exported Baseline Artifacts:
+- **`reports/`**: `baseline_model_results.csv`
+- **`models/`**: `logistic_regression.pkl`, `decision_tree.pkl`, `random_forest.pkl`, `xgboost.pkl`
 
 ---
 
