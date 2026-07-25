@@ -1,0 +1,6 @@
+Stage,Result
+Best Model,Random Forest
+Sampling Technique,SMOTE
+ROC-AUC,0.9591
+PR-AUC,0.8078
+Best Threshold,0.6000000000000002
